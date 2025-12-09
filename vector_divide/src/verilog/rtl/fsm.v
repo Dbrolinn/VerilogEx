@@ -91,30 +91,30 @@ always @(*) begin
         LoadX_reg = 1;              //Clock 0: load to dividend reg next clock
         control_Addr = 3'd1;        //Clock 0: (addr+1) load from MEM[i+1] next clock
       end
-      else if (clock_count == 1)
-        LoadY_reg = 1;              //Clock 1: load to divisor reg next clock
-      else begin
-        start_div = 1;              //Clock 2: load dividend and divisor reg values to internal regs next clock
-        next_state = DIVISION;      //Clock 2: change state next clock
+      else if (clock_count == 2)
+        LoadY_reg = 1;              //Clock 2: load to divisor reg next clock
+      else if (clock_count == 3) begin
+        start_div = 1;              //Clock 3: load dividend and divisor reg values to internal regs next clock
+        next_state = DIVISION;      //Clock 3: change state next clock
       end
     end
 
     //1 CLOCK for start + 32 for DIVISION + 1 for STOP
-    DIVISION: begin                 //Clock 3 to 36 (division process lasts for 32 cycles)
-      if(clock_count == NBITS + 3)
-        stop_div = 1;               //Clock 35: divisor block writes results to rest & quotient regs next clock
-      if(clock_count == NBITS + 4) begin
-        Wenable = 1;                //Clock 36: write rest result to RAM memory next clock
-        control_Addr = 3'd3;        //Clock 36: (addr-1) load to MEM[i-1] next clock
-        next_state = WRITE_MEM;     //Clock 36: change state next clock
+    DIVISION: begin                 //Clock 4 to 37 (division process lasts for 32 cycles)
+      if(clock_count == NBITS + 4)
+        stop_div = 1;               //Clock 36: divisor block writes results to rest & quotient regs next clock
+      if(clock_count == NBITS + 5) begin
+        Wenable = 1;                //Clock 37: write rest result to RAM memory next clock
+        control_Addr = 3'd3;        //Clock 37: (addr-1) load to MEM[i-1] next clock
+        next_state = WRITE_MEM;     //Clock 37: change state next clock
       end
     end
 
-    WRITE_MEM: begin                //Clock 37
-        Wenable = 1;                //Clock 37: write quotient result to RAM memory next clock
-        Wdata_control = 1;          //Clock 37: load from quotient next clock
-        control_Addr = 3'd2;        //Clock 37: (addr+2) load new dividend from RAM next clock cycle
-        next_state = STOP;          //Clock 37: change state next clock
+    WRITE_MEM: begin                //Clock 38
+        Wenable = 1;                //Clock 38: write quotient result to RAM memory next clock
+        Wdata_control = 1;          //Clock 38: load from quotient next clock
+        control_Addr = 3'd2;        //Clock 38: (addr+2) load new dividend from RAM next clock cycle
+        next_state = STOP;          //Clock 38: change state next clock
     end
 
     STOP: begin
