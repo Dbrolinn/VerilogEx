@@ -1,0 +1,3 @@
+../src/verilog/rtl/psdsqrt_52.v
+../src/verilog/testbench/psdsqrt_tb52.v
+

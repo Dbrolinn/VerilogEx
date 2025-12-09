@@ -1,0 +1,7 @@
+
+../src/verilog/testbench/vector_divide_tb.v
+../src/verilog/rtl/vector_divide.v
+../src/verilog/rtl/datapath.v
+../src/verilog/rtl/fsm.v
+../src/verilog/rtl/divide.v
+../src/verilog/rtl/myram.v
